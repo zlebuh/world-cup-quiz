@@ -1,84 +1,84 @@
-# Section 1: Groups & Teams
+# Section 1: Aktuální dění
 
-1. How many teams participate in FIFA World Cup 2026?
-   Answer: 48
+1. Kolik zápasů už bylo odehráno? (k 20. 6. 14:00)
+   Answer: 32
 
-2. Which three countries co-host the 2026 FIFA World Cup?
-   Answer: USA, Canada, Mexico
+2. Kolik padlo červených karet? (k 20. 6. 14:00)
+   Answer: 7
 
-3. How many groups are there in the 2026 World Cup group stage?
-   Answer: 12
+3. Kolik padlo vlastňáků? (k 20. 6. 14:00)
+   Answer: 7
 
-4. How many teams advance from each group in the 2026 format?
-   Answer: 3
+4. Kdo je aktuálně nejlepší střelec MS pod 30 let? (k 20. 6. 14:00)
+   Answer: Jonathan David
 
-5. Which continent has the most teams qualified for the 2026 World Cup?
-   Answer: Europe
+5. Jak dopadl zápas Japonsko - Nizozemsko (přesný výsledek)?
+   Answer: 2:2
 
-# Section 2: Players & Stars
+# Section 2: Geografie
 
-1. Who won the Golden Boot at the 2022 FIFA World Cup?
-   Answer: Mbappe
+1. Kolik je na mistrovstí světa ryze ostrovních zemí (tj. nedělí se o půdu s jiným státem)?
+   Answer: 5 (Austrálie, Japonsko, Nový Zéland, Curacao, Kapverdy)
 
-2. Which player has scored the most goals in FIFA World Cup history?
-   Answer: Ronaldo
+2. Který z účastníků má nejjižněji položený bod ze všech?
+   Answer: Argentina
 
-3. Who was named the best player (Golden Ball) at the 2022 World Cup?
-   Answer: Messi
+3. Jaká nepořádající účastnická země má největší rozlohu?
+   Answer: Brazílie
 
-4. Which country did Kylian Mbappe represent at the 2022 World Cup?
-   Answer: France
+4. DR Kongo už jednu účast na MS zažilo. V roce 1974, ale pod jiným jménem. Jakým?
+   Answer: Zair
 
-5. Which goalkeeper won the Golden Glove at the 2022 World Cup?
-   Answer: Bounou
+5. Jaké pořadatelské město je nejsevernější? 
+   Answer: Vancouver
 
-# Section 3: History & Stats
+# Section 3: Historické okénko
 
-1. Which country has won the most FIFA World Cup titles?
-   Answer: Brazil
+1. Která země má nejvíc titulů mistrů světa (5)? 
+   Answer: Brazílie
 
-2. In which year was the first FIFA World Cup held?
+2. Kdy se konalo první mistrovství světa?
    Answer: 1930
 
-3. Which country hosted the 2022 FIFA World Cup?
-   Answer: Qatar
+3. Kde se konalo mistrovství světa v roce 1994?
+   Answer: USA
 
-4. Who scored the winning goal in the 2022 World Cup final?
-   Answer: Mbappe
+4. Kdo byl ještě před týdnem jediným nejlepším střelcem historie MS?
+   Answer: Miroslav Klose
 
-5. Which team did Argentina defeat in the 2022 World Cup final?
-   Answer: France
+5. Kdo bral bronzové medaile na MS 2022 v Kataru?
+   Answer: Chorvatsko
 
-# Section 4: Venues & Cities
+# Section 4: Fantasy
 
-1. In which US city will the 2026 World Cup final be held?
-   Answer: New York
+1. Který hráč udělal nejvíce bodů ve fantasy po prvním kole základních skupin?
+   Answer: Lionel Messi
 
-2. How many stadiums are used across all three host countries in 2026?
-   Answer: 16
+2. Který český hráč udělal v prvních dvou zápasech v součtu nejvíce bodů?
+   Answer: Michal Sadílek
 
-3. Which Canadian city hosts matches in the 2026 World Cup?
-   Answer: Toronto
+3. Který hráč je součástí nejvíce sestav? (K 20. 6. 14:00)
+   Answer: Kylian Mbappé
 
-4. Which Mexican city is a host venue for the 2026 World Cup?
-   Answer: Mexico City
+4. Který německý hráč je nejdražší?
+   Answer: Jamal Musiala
 
-5. What is the name of the stadium in Dallas hosting 2026 World Cup matches?
-   Answer: AT&T Stadium
+5. Brankář kterého týmu nasbíral v prvním kole základních skupin nejvíc bodů?
+   Answer: Kapverdy (Vozinha)
 
-# Section 5: Rules & Format
+# Section 5: Poznej hráče
 
-1. How many players can each team include in their 2026 World Cup squad?
-   Answer: 26
+1. Nizozemec. Odchovanec Arsenalu. V klubu letos 15 golů v 20 zápasech.
+   Answer: Donyell Malen
 
-2. What is the name of the round after the group stage in the 2026 format?
-   Answer: Round of 32
+2. V klubu dres 10. V repre nepřipadá v úvahu. Nedávno změnil účes. Brácha Kevin taky profík.
+   Answer: Alexis Mac Alister
 
-3. How many substitutes are allowed per team in a World Cup match?
-   Answer: 5
+3. Potomek uprchlíků. Kapitán své repre.
+   Answer: Alphonso Davies
 
-4. How long is extra time in a World Cup knockout match (total)?
-   Answer: 30 minutes
+4. Letošní i loňský vítěz LM. Nejdražší hráč z repre výběru. Čeká ho soud ve Francii za údajné znásilnění.
+   Answer: Achraf Hakimi
 
-5. What technology is used to determine offside calls at the World Cup?
-   Answer: VAR
+5. Hrál v české lize. Teď v Schalke 04.
+   Answer: Edin Džeko
