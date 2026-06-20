@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WC 2026 Quiz — Host Panel</title>
+  <title>Host Panel</title>
+  <link rel="stylesheet" href="/theme.css" />
   <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/custom.css" />
   <style>
     .host-bar {
       position: fixed; top: 0; left: 0; right: 0;
@@ -45,7 +47,7 @@
 </head>
 <body>
   <div class="host-bar">
-    <div class="logo" style="font-size:1.4rem;margin:0">⚽</div>
+    <div id="theme-emoji" style="font-size:1.4rem;margin:0"></div>
     <h1>Host Panel</h1>
     <span class="phase-label" id="phase-label">lobby</span>
   </div>
@@ -124,8 +126,8 @@
 
   <!-- GAME OVER (host view) -->
   <div id="screen-gameover" class="card hidden">
-    <div class="fireworks">🏆🎉⚽</div>
-    <h2 class="center">Quiz Complete — Final Standings</h2>
+    <div class="fireworks">🏆🎉</div>
+    <h2 class="center" id="gameover-title">Quiz Complete — Final Standings</h2>
     <table class="standings-table">
       <thead><tr><th class="rank">#</th><th>Player</th><th>Score</th></tr></thead>
       <tbody id="h-gameover-body"></tbody>
@@ -133,6 +135,14 @@
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
+  <script>
+    fetch('/api/theme').then(r => r.json()).then(t => {
+      document.title = t.title + ' — Host Panel';
+      document.getElementById('theme-emoji').textContent = t.emoji;
+      const go = document.getElementById('gameover-title');
+      if (go) go.textContent = t.title + ' — Final Standings';
+    });
+  </script>
   <script src="/host.js"></script>
 </body>
 </html>

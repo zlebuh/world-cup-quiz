@@ -1,0 +1,38 @@
+/*
+ * Custom styles — loaded last, so anything here overrides the defaults.
+ *
+ * CSS variables available (set in config/theme.json, override here if you want):
+ *   --accent      primary highlight color (buttons, timer ring, headings)
+ *   --green       section badges, start button
+ *   --red         wrong answers, stop timer button
+ *   --gold        alias for --accent (used interchangeably)
+ *   --bg          page background
+ *   --surface     card background
+ *   --surface2    input / inner element background
+ *   --text        body text
+ *   --muted       secondary / placeholder text
+ *   --radius      border radius for cards and inputs
+ *
+ * Key selectors:
+ *   body                    page background and font
+ *   .card                   question / lobby / standings panels
+ *   .btn-primary            gold action button
+ *   .btn-green              start / confirm button
+ *   .btn-danger             stop timer button
+ *   .btn-ghost              neutral button
+ *   .section-badge          colored pill above question
+ *   .question-text          large question text
+ *   .standings-table        scoreboard table
+ *   .timer-ring .progress   SVG arc (stroke color)
+ *   .player-pill            player name chip in lobby
+ *   .ps-chip                player status chip on host bar
+ *   .fireworks              emoji shown on final screen
+ *   h1, h2, h3              headings
+ */
+
+/* Example: change the font */
+/* @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+body { font-family: 'Oswald', sans-serif; } */
+
+/* Example: rounded cards with a subtle glow */
+/* .card { border-color: var(--accent); box-shadow: 0 0 20px rgba(201,162,39,.15); } */

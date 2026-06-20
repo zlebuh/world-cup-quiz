@@ -43,8 +43,8 @@ let reviewData = null; // cached review payload for re-renders
 // ── Init ──────────────────────────────────────────────────────────────────────
 socket.emit('host-connect');
 
-fetch('/local-ip').then((r) => r.json()).then(({ ip, port }) => {
-  document.getElementById('url-label').textContent = `http://${ip}:${port}`;
+fetch('/api/join-url').then((r) => r.json()).then(({ url }) => {
+  document.getElementById('url-label').textContent = url;
 });
 
 const playerStatusChips = document.getElementById('player-status-chips');

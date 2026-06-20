@@ -1,0 +1,15 @@
+{
+  "title": "FIFA World Cup 2026",
+  "subtitle": "Trivia Quiz",
+  "emoji": "⚽",
+  "colors": {
+    "accent":   "#c9a227",
+    "primary":  "#1a6b2e",
+    "danger":   "#c0392b",
+    "bg":       "#0d1117",
+    "surface":  "#161b22",
+    "surface2": "#21262d",
+    "text":     "#e6edf3",
+    "muted":    "#8b949e"
+  }
+}
