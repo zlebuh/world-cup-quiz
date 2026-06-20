@@ -355,6 +355,30 @@ hr { border-top-color: rgba(255,255,255,0.08); }
 /* ── Fireworks ───────────────────────────────────────────────────────────── */
 .fireworks { font-size: 3.5rem; }
 
+/* ── Engine credit footer ────────────────────────────────────────────────── */
+.engine-credit {
+  position: fixed;
+  bottom: 6px;
+  right: 10px;
+  z-index: 9999;
+  font-size: .62rem;
+  color: rgba(255,255,255,0.38);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+.engine-credit a {
+  color: rgba(255,255,255,0.38);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  pointer-events: all;
+}
+.engine-credit a:hover { color: rgba(255,255,255,0.70); }
+.engine-credit svg { width: 11px; height: 11px; fill: currentColor; }
+
 /* ── URL label ───────────────────────────────────────────────────────────── */
 .url-label {
   font-family: 'Barlow Condensed', sans-serif;
