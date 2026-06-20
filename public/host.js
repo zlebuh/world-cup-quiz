@@ -4,6 +4,43 @@ const socket = io();
 const screens = ['lobby','question','review','standings','gameover'];
 const playerStatusBar = document.querySelector('.player-status-bar');
 
+// ── Audio ─────────────────────────────────────────────────────────────────────
+let audioCtx = null;
+function unlockAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+function playBell() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  [[880, 0.5], [1108, 0.25], [1480, 0.12]].forEach(([freq, vol]) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(vol, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 1.5);
+    osc.start(t);
+    osc.stop(t + 1.5);
+  });
+}
+function playTick() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.frequency.value = 1100;
+  osc.type = 'sine';
+  gain.gain.setValueAtTime(0.22, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+  osc.start(t);
+  osc.stop(t + 0.06);
+}
+
 function show(name) {
   screens.forEach((s) => document.getElementById(`screen-${s}`).classList.add('hidden'));
   document.getElementById(`screen-${name}`).classList.remove('hidden');
@@ -141,6 +178,7 @@ socket.on('show-question', (data) => {
 
 // ── Timer ─────────────────────────────────────────────────────────────────────
 btnStartTimer.addEventListener('click', () => {
+  unlockAudio();
   socket.emit('start-timer');
   btnStartTimer.classList.add('hidden');
   btnStopTimer.classList.remove('hidden');
@@ -165,6 +203,7 @@ socket.on('timer-start', ({ seconds }) => {
 
 socket.on('timer-tick', ({ remaining }) => {
   updateTimer(remaining);
+  if (remaining <= 5 && remaining > 0) playTick();
 });
 
 function updateTimer(remaining) {
@@ -178,6 +217,7 @@ function updateTimer(remaining) {
 }
 
 socket.on('question-ended', () => {
+  playBell();
   btnStopTimer.classList.add('hidden');
   hAfterTimer.classList.remove('hidden');
   hAnswerCount.classList.add('hidden');

@@ -35,9 +35,46 @@ const waitingMsg     = document.getElementById('waiting-msg');
 
 const CIRCUMFERENCE = 2 * Math.PI * 45; // r=45
 
+// ── Audio ─────────────────────────────────────────────────────────────────────
+let audioCtx = null;
+function unlockAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+function playBell() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  [[880, 0.5], [1108, 0.25], [1480, 0.12]].forEach(([freq, vol]) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(vol, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 1.5);
+    osc.start(t);
+    osc.stop(t + 1.5);
+  });
+}
+function playTick() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.frequency.value = 1100;
+  osc.type = 'sine';
+  gain.gain.setValueAtTime(0.22, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+  osc.start(t);
+  osc.stop(t + 0.06);
+}
+
 // ── Join ─────────────────────────────────────────────────────────────────────
-btnJoin.addEventListener('click', joinGame);
-inputName.addEventListener('keydown', (e) => { if (e.key === 'Enter') joinGame(); });
+btnJoin.addEventListener('click', () => { unlockAudio(); joinGame(); });
+inputName.addEventListener('keydown', (e) => { if (e.key === 'Enter') { unlockAudio(); joinGame(); } });
 
 function joinGame() {
   const name = inputName.value.trim();
@@ -155,6 +192,7 @@ socket.on('timer-start', ({ seconds }) => {
 
 socket.on('timer-tick', ({ remaining }) => {
   updateTimerDisplay(remaining);
+  if (remaining <= 5 && remaining > 0) playTick();
 });
 
 function updateTimerDisplay(remaining) {
@@ -184,6 +222,7 @@ socket.on('answer-ack', ({ answer }) => {
 
 // ── Question ended (timer stopped) ───────────────────────────────────────────
 socket.on('question-ended', () => {
+  playBell();
   timerRing.classList.add('hidden');
   timerWaiting.classList.add('hidden');
   inputAnswer.disabled = true;
