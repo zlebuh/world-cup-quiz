@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WC 2026 Quiz</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="logo">⚽</div>
+  <h1>FIFA World Cup 2026</h1>
+
+  <!-- JOIN SCREEN -->
+  <div id="screen-join" class="card">
+    <h2>Enter your name</h2>
+    <p style="color:var(--muted);margin-bottom:14px;">Last name is enough.</p>
+    <input type="text" id="input-name" placeholder="Your last name" maxlength="30" autocomplete="off" />
+    <button class="btn-primary" id="btn-join" style="width:100%">Join Quiz</button>
+    <p id="join-error" style="color:var(--red);margin-top:8px;display:none"></p>
+  </div>
+
+  <!-- LOBBY SCREEN -->
+  <div id="screen-lobby" class="card hidden">
+    <h2>Waiting for the host to start...</h2>
+    <div id="lobby-players" style="margin-top:10px"></div>
+  </div>
+
+  <!-- QUESTION SCREEN -->
+  <div id="screen-question" class="card hidden">
+    <span class="section-badge" id="q-section-badge"></span>
+    <p style="color:var(--muted);font-size:.85rem;margin-bottom:4px" id="q-progress"></p>
+    <p class="question-text" id="q-text"></p>
+
+    <div class="timer-ring hidden" id="timer-ring">
+      <svg viewBox="0 0 100 100" width="110" height="110">
+        <circle class="track" cx="50" cy="50" r="45"/>
+        <circle class="progress" id="timer-arc" cx="50" cy="50" r="45"/>
+      </svg>
+      <div class="timer-number" id="timer-number">30</div>
+    </div>
+
+    <div id="answer-area" class="hidden">
+      <input type="text" id="input-answer" placeholder="Your answer..." maxlength="80" autocomplete="off" />
+      <button class="btn-primary" id="btn-submit" style="width:100%">Submit Answer</button>
+    </div>
+    <div id="answer-submitted-msg" class="hidden answer-submitted">✓ Answer submitted!</div>
+    <p id="timer-waiting" class="status-msg hidden">Waiting for host to start the timer...</p>
+    <p id="answer-locked-msg" class="status-msg hidden">Time's up! Waiting for host...</p>
+  </div>
+
+  <!-- WAITING SCREEN -->
+  <div id="screen-waiting" class="card hidden">
+    <p class="status-msg" id="waiting-msg">Please wait...</p>
+  </div>
+
+  <!-- STANDINGS SCREEN -->
+  <div id="screen-standings" class="card hidden">
+    <h2 id="standings-title">Standings</h2>
+    <table class="standings-table">
+      <thead><tr><th class="rank">#</th><th>Player</th><th>Score</th></tr></thead>
+      <tbody id="standings-body"></tbody>
+    </table>
+  </div>
+
+  <!-- GAME OVER -->
+  <div id="screen-gameover" class="card hidden">
+    <div class="fireworks">🏆🎉⚽</div>
+    <h2 class="center">Final Standings</h2>
+    <table class="standings-table">
+      <thead><tr><th class="rank">#</th><th>Player</th><th>Score</th></tr></thead>
+      <tbody id="gameover-body"></tbody>
+    </table>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/player.js"></script>
+</body>
+</html>

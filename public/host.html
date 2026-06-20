@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WC 2026 Quiz — Host Panel</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .host-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--surface); border-bottom: 1px solid var(--surface2);
+      padding: 10px 20px;
+      display: flex; align-items: center; gap: 16px; z-index: 100;
+    }
+    .host-bar h1 { font-size: 1.1rem; margin: 0; }
+    .phase-label { font-size: .8rem; background: var(--green); color: #fff; padding: 2px 10px; border-radius: 20px; }
+
+    .player-status-bar {
+      position: fixed; top: 48px; left: 0; right: 0;
+      background: var(--bg); border-bottom: 1px solid var(--surface2);
+      padding: 6px 20px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap; z-index: 99;
+    }
+    .player-status-bar .label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-right: 4px; }
+    .ps-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: .8rem; padding: 2px 10px; border-radius: 20px;
+      background: var(--surface); border: 1px solid var(--surface2);
+    }
+    .ps-chip .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .ps-chip.online .dot  { background: #2ea043; }
+    .ps-chip.offline .dot { background: var(--red); }
+    .ps-chip.offline { opacity: .55; }
+
+    body { padding-top: 96px; }
+
+    .review-table td, .review-table th { font-size: .82rem; }
+    .correct-toggle { cursor: pointer; user-select: none; }
+
+    .inline-edit-form { display: flex; gap: 6px; align-items: center; margin-top: 4px; }
+    .inline-edit-form input { flex: 1; padding: 4px 8px; font-size: .82rem;
+      background: var(--surface2); border: 1px solid #30363d; border-radius: 6px; color: var(--text); }
+    .inline-edit-form button { padding: 4px 10px; font-size: .78rem; }
+  </style>
+</head>
+<body>
+  <div class="host-bar">
+    <div class="logo" style="font-size:1.4rem;margin:0">⚽</div>
+    <h1>Host Panel</h1>
+    <span class="phase-label" id="phase-label">lobby</span>
+  </div>
+  <div class="player-status-bar">
+    <span class="label">Players</span>
+    <div id="player-status-chips"></div>
+  </div>
+
+  <!-- LOBBY -->
+  <div id="screen-lobby" class="card">
+    <h2>Lobby</h2>
+    <div class="flex-row" style="margin-bottom:16px">
+      <div class="qr-box">
+        <img id="qr-img" src="/qr" alt="QR Code" />
+        <div class="url-label" id="url-label">Loading...</div>
+      </div>
+      <div>
+        <h3>Players joined</h3>
+        <div id="lobby-players"><span style="color:var(--muted)">None yet...</span></div>
+      </div>
+    </div>
+    <button class="btn-green" id="btn-start-game">Start Quiz (Section 1)</button>
+  </div>
+
+  <!-- QUESTION CONTROL -->
+  <div id="screen-question" class="card hidden">
+    <span class="section-badge" id="h-section-badge"></span>
+    <p style="color:var(--muted);font-size:.85rem;margin-bottom:4px" id="h-progress"></p>
+    <p class="question-text" id="h-qtext"></p>
+
+    <div class="flex-row">
+      <button class="btn-primary" id="btn-start-timer">▶ Start Timer</button>
+      <button class="btn-danger hidden" id="btn-stop-timer">⏹ Stop Timer</button>
+    </div>
+
+    <div class="timer-ring hidden" id="h-timer-ring">
+      <svg viewBox="0 0 100 100" width="110" height="110">
+        <circle class="track" cx="50" cy="50" r="45"/>
+        <circle class="progress" id="h-timer-arc" cx="50" cy="50" r="45"/>
+      </svg>
+      <div class="timer-number" id="h-timer-number">30</div>
+    </div>
+
+    <div id="h-after-timer" class="hidden mt">
+      <p class="status-msg" style="color:var(--gold)">Timer ended. Players' answers locked.</p>
+      <button class="btn-ghost" id="btn-next-question">Next Question →</button>
+    </div>
+  </div>
+
+  <!-- REVIEW -->
+  <div id="screen-review" class="card hidden">
+    <h2 id="review-title">Review Answers</h2>
+    <p style="color:var(--muted);margin-bottom:14px">Click ✏ to edit an answer. Click the badge to toggle correct/wrong. When done, confirm to show standings.</p>
+    <div style="overflow-x:auto">
+      <table class="review-table" id="review-table">
+        <thead id="review-head"></thead>
+        <tbody id="review-body"></tbody>
+      </table>
+    </div>
+    <div class="mt">
+      <button class="btn-green" id="btn-confirm-review">✓ Confirm & Show Standings</button>
+    </div>
+  </div>
+
+  <!-- STANDINGS (host view) -->
+  <div id="screen-standings" class="card hidden">
+    <h2 id="h-standings-title">Standings</h2>
+    <table class="standings-table">
+      <thead><tr><th class="rank">#</th><th>Player</th><th>Score</th></tr></thead>
+      <tbody id="h-standings-body"></tbody>
+    </table>
+    <div class="mt flex-row">
+      <button class="btn-green" id="btn-next-section">Next Section →</button>
+    </div>
+  </div>
+
+  <!-- GAME OVER (host view) -->
+  <div id="screen-gameover" class="card hidden">
+    <div class="fireworks">🏆🎉⚽</div>
+    <h2 class="center">Quiz Complete — Final Standings</h2>
+    <table class="standings-table">
+      <thead><tr><th class="rank">#</th><th>Player</th><th>Score</th></tr></thead>
+      <tbody id="h-gameover-body"></tbody>
+    </table>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/host.js"></script>
+</body>
+</html>
