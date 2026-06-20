@@ -56,11 +56,60 @@ function renderPlayerStatus(list) {
   ).join('');
 }
 
-socket.on('host-ok', ({ playerList, playerStatus, state }) => {
+socket.on('host-ok', ({ playerList, playerStatus, snapshot }) => {
   renderPlayerList(playerList);
   renderPlayerStatus(playerStatus || []);
-  setPhase(state.phase);
+  restoreHostState(snapshot);
 });
+
+function restoreHostState(snap) {
+  setPhase(snap.phase);
+  if (snap.phase === 'lobby') { show('lobby'); return; }
+
+  if (snap.phase === 'question' || snap.phase === 'timer') {
+    const d = snap.question;
+    hSectionBadge.textContent = `Section ${d.sectionIndex + 1}: ${d.sectionTitle}`;
+    hProgress.textContent     = `Question ${d.questionIndex + 1} of ${d.totalQuestions}`;
+    hQtext.textContent        = d.questionText;
+    hTimerRing.classList.add('hidden');
+    hAfterTimer.classList.add('hidden');
+    if (snap.phase === 'timer') {
+      btnStartTimer.classList.add('hidden');
+      btnStopTimer.classList.remove('hidden');
+      hTimerRing.classList.remove('hidden');
+      updateTimer(snap.timerRemaining ?? 30);
+    } else {
+      btnStartTimer.classList.remove('hidden');
+      btnStartTimer.disabled = false;
+      btnStopTimer.classList.add('hidden');
+    }
+    show('question');
+    return;
+  }
+
+  if (snap.phase === 'review') {
+    renderReview(snap.review);
+    show('review');
+    return;
+  }
+
+  if (snap.phase === 'standings') {
+    hStandingsTitle.textContent = `Standings after: ${snap.sectionTitle}`;
+    hStandingsBody.innerHTML = snap.scores.map((s, i) =>
+      `<tr><td class="rank">${i + 1}</td><td>${esc(s.name)}</td><td>${s.score}</td></tr>`
+    ).join('');
+    btnNextSection.textContent = snap.isLast ? 'Show Final Results' : 'Next Section →';
+    show('standings');
+    return;
+  }
+
+  if (snap.phase === 'done') {
+    hGameoverBody.innerHTML = snap.scores.map((s, i) =>
+      `<tr><td class="rank">${i + 1}</td><td>${esc(s.name)}</td><td>${s.score}</td></tr>`
+    ).join('');
+    show('gameover');
+  }
+}
 
 socket.on('player-status', renderPlayerStatus);
 

@@ -151,7 +151,7 @@ io.on('connection', (socket) => {
       sections: quiz.map((s) => s.title),
       playerList: playerList(),
       playerStatus: playerStatusList(),
-      state: publicState(),
+      snapshot: hostStateSnapshot(),
     });
   });
 
@@ -308,6 +308,27 @@ function currentStateSnapshot() {
     if (state.phase === 'timer') snap.timerRemaining = state.timerRemaining;
   }
   if (state.phase === 'standings') snap.scores = computeScores();
+  return snap;
+}
+
+function hostStateSnapshot() {
+  const snap = { phase: state.phase, sectionIndex: state.sectionIndex, questionIndex: state.questionIndex };
+  if (state.phase === 'question' || state.phase === 'timer') {
+    const q = currentQuestion();
+    const s = currentSection();
+    snap.question = {
+      sectionTitle: s.title, sectionIndex: state.sectionIndex, questionIndex: state.questionIndex,
+      totalSections: quiz.length, totalQuestions: s.questions.length,
+      questionText: q.text, correctAnswer: q.answer,
+    };
+    if (state.phase === 'timer') snap.timerRemaining = state.timerRemaining;
+  }
+  if (state.phase === 'review') snap.review = buildReviewData();
+  if (state.phase === 'standings' || state.phase === 'done') {
+    snap.scores = computeScores();
+    snap.sectionTitle = currentSection()?.title;
+    snap.isLast = state.sectionIndex >= quiz.length - 1;
+  }
   return snap;
 }
 
