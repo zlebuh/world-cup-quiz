@@ -4,43 +4,6 @@ const socket = io();
 const screens = ['lobby','question','review','standings','gameover'];
 const playerStatusBar = document.querySelector('.player-status-bar');
 
-// ── Audio ─────────────────────────────────────────────────────────────────────
-let audioCtx = null;
-function unlockAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-}
-function playBell() {
-  if (!audioCtx) return;
-  const t = audioCtx.currentTime;
-  [[880, 0.5], [1108, 0.25], [1480, 0.12]].forEach(([freq, vol]) => {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.frequency.value = freq;
-    osc.type = 'sine';
-    gain.gain.setValueAtTime(vol, t);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + 1.5);
-    osc.start(t);
-    osc.stop(t + 1.5);
-  });
-}
-function playTick() {
-  if (!audioCtx) return;
-  const t = audioCtx.currentTime;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  osc.frequency.value = 1100;
-  osc.type = 'sine';
-  gain.gain.setValueAtTime(0.22, t);
-  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
-  osc.start(t);
-  osc.stop(t + 0.06);
-}
-
 function show(name) {
   screens.forEach((s) => document.getElementById(`screen-${s}`).classList.add('hidden'));
   document.getElementById(`screen-${name}`).classList.remove('hidden');
@@ -74,8 +37,6 @@ const reviewBody    = document.getElementById('review-body');
 const hStandingsTitle = document.getElementById('h-standings-title');
 const hStandingsBody  = document.getElementById('h-standings-body');
 const hGameoverBody   = document.getElementById('h-gameover-body');
-
-const CIRCUMFERENCE = 2 * Math.PI * 45;
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let reviewData = null; // cached review payload for re-renders
@@ -207,13 +168,7 @@ socket.on('timer-tick', ({ remaining }) => {
 });
 
 function updateTimer(remaining) {
-  const fraction = remaining / 30;
-  const offset = CIRCUMFERENCE * (1 - fraction);
-  hTimerArc.style.strokeDashoffset = offset;
-  hTimerNumber.textContent = remaining;
-  const urgent = remaining <= 10;
-  hTimerArc.classList.toggle('urgent', urgent);
-  hTimerNumber.classList.toggle('urgent', urgent);
+  updateTimerRing(hTimerArc, hTimerNumber, remaining);
 }
 
 socket.on('question-ended', () => {
@@ -334,12 +289,3 @@ socket.on('game-over', ({ scores }) => {
   setPhase('done');
   show('gameover');
 });
-
-// ── Utility ───────────────────────────────────────────────────────────────────
-function esc(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
