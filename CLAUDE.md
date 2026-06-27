@@ -16,8 +16,13 @@ No build step, no tests. This is a plain Node.js app — edit files and restart.
 
 Real-time trivia quiz: one host browser tab controls game flow; players join from their phones.
 
-- **`server.js`** — Express + Socket.IO backend. Owns all game state in a single in-memory `state` object (`phase`, `sectionIndex`, `questionIndex`, timer). Only one host socket is tracked (`state.hostSocketId`); all host events are gated against it.
-- **`quiz-loader.js`** — parses `config/quiz.md` into `[{ title, questions: [{text, answer}] }]`.
+- **`server.js`** — thin bootstrap: loads config/quiz, builds game state, registers routes and socket handlers, starts listening.
+- **`lib/game-state.js`** — owns all game state in a single in-memory `state` object (`phase`, `sectionIndex`, `questionIndex`, timer) plus `players`/`disconnected` maps and derived helpers (scoring, snapshots, review data). Only one host socket is tracked (`state.hostSocketId`); all host events are gated against it.
+- **`lib/socket-handlers.js`** — all Socket.IO event handlers (join/rejoin, host controls, answer submission, disconnect).
+- **`lib/routes.js`** — HTTP routes (`/host`, `/api/theme`, `/qr`, `/api/join-url`, static files).
+- **`lib/network.js`** — local IP / public URL resolution.
+- **`lib/quiz-loader.js`** — parses `config/quiz.md` into `[{ title, questions: [{text, answer}] }]`.
+- **`public/shared.js`** — audio cues, timer-ring rendering, and HTML escaping shared by both client scripts.
 - **`public/host.js`** — host-side socket client; drives the host UI through game phases.
 - **`public/player.js`** — player-side socket client; handles join, answer submission, rejoin on disconnect.
 - **`scripts/start.js`** — launches server + ngrok, updates `PUBLIC_URL` env var, opens browser.
